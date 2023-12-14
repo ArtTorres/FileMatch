@@ -4,7 +4,7 @@ namespace FileMatch
 {
     internal interface IFileAnalyzer
     {
-        event EventHandler<DuplicatedFileEvent> DuplicationFound;
+        event EventHandler<DuplicateFileEvent> DuplicateFound;
 
         event EventHandler<AccessDeniedEvent> AccessDenied;
 

@@ -4,10 +4,10 @@ namespace FileMatch
 {
     internal class Analyzer : IFileAnalyzer
     {
-        public event EventHandler<DuplicatedFileEvent> DuplicationFound;
-        public void OnDuplicationFound(Metadata a, Metadata b)
+        public event EventHandler<DuplicateFileEvent> DuplicateFound;
+        public void OnDuplicateFound(Metadata a, Metadata b)
         {
-            DuplicationFound?.Invoke(this, new DuplicatedFileEvent(a, b));
+            DuplicateFound?.Invoke(this, new DuplicateFileEvent(a, b));
         }
 
         public event EventHandler<AccessDeniedEvent> AccessDenied;
@@ -126,7 +126,7 @@ namespace FileMatch
 
                     if (_hash.ContainsKey(key))
                     {
-                        OnDuplicationFound(_hash[key], meta);
+                        OnDuplicateFound(_hash[key], meta);
                         _duplicates++;
                     }
                     else

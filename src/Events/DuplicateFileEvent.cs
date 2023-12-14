@@ -1,12 +1,12 @@
 ﻿namespace FileMatch.Events
 {
-    internal class DuplicatedFileEvent : EventArgs
+    internal class DuplicateFileEvent : EventArgs
     {
         public Metadata A { get; private set; }
         public Metadata B { get; private set; }
 
 
-        public DuplicatedFileEvent(Metadata a, Metadata b)
+        public DuplicateFileEvent(Metadata a, Metadata b)
         {
             A = a;
             B = b;

@@ -15,7 +15,7 @@ namespace FileMatch
             _mode = fileAnalyzer.Mode;
             _errors = new List<Exception>();
 
-            _analyzer.DuplicationFound+=FileAnalyzer_DuplicationFound;
+            _analyzer.DuplicateFound+=FileAnalyzer_DuplicationFound;
             _analyzer.LimitReached+=FileAnalyzer_LimitReached;
             _analyzer.AccessDenied+=FileAnalyzer_AccessDenied;
         }
@@ -43,7 +43,7 @@ namespace FileMatch
 
         #region Events
 
-        private void FileAnalyzer_DuplicationFound(object sender, Events.DuplicatedFileEvent e)
+        private void FileAnalyzer_DuplicationFound(object sender, Events.DuplicateFileEvent e)
         {
             Console.WriteLine($":: {e.A.Filename}");
 
