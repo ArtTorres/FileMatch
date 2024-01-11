@@ -27,6 +27,7 @@ namespace FileMatch
 
         public void DisplayResume()
         {
+            Console.WriteLine(".:");
             Console.WriteLine($"Files processed [{_analyzer.FilesProcessed}]");
             Console.WriteLine($"Matches [{_analyzer.Duplicates}]");
         }
