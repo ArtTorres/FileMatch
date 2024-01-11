@@ -1,0 +1,101 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - '1.*'
+
+jobs:
+  release:
+    runs-on: ubuntu-22.04
+    needs: [build-windows, build-linux]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+        
+    - name: "Create release"
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "${{github.ref_name}}"
+        prerelease: false
+        title: "File Match - v${{github.ref_name}}"
+        files: |
+          ./fmatch_win/fmatch_${{github.ref_name}}_win.zip
+          ./fmatch_linux/fmatch_${{github.ref_name}}_linux.zip
+
+  build-windows:
+    runs-on: windows-2022
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+        
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+  
+      - name: Restore dependencies
+        run: dotnet restore
+  
+      - name: Build
+        run: dotnet build --configuration Release
+  
+      - name: Publish
+        run: dotnet publish -c Release -o ./publish -p:PublishSingleFile=true --self-contained false
+  
+      - name: Zip
+        run: 7z a fmatch_${{github.ref_name}}_win.zip ./publish/fmatch.exe
+  
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fmatch_win
+          path: ./src/fmatch_${{github.ref_name}}_win.zip
+  
+  build-linux:
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+        
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+  
+      - name: Restore dependencies
+        run: dotnet restore
+  
+      - name: Build
+        run: dotnet build --configuration Release
+  
+      - name: Publish
+        run: dotnet publish -c Release -o ./publish -p:PublishSingleFile=true --self-contained false
+  
+      - name: Zip
+        run: 7z a fmatch_${{github.ref_name}}_linux.zip ./publish/fmatch
+  
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: fmatch_linux
+          path: ./src/fmatch_${{github.ref_name}}_linux.zip
