@@ -1,5 +1,5 @@
 # FileMatch v1.0
-[![Build](https://github.com/ArtTorres/FileMatch/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/ArtTorres/FileMatch/actions/workflows/build.yml)
+[![Build](https://github.com/ArtTorres/FileMatch/actions/workflows/build.yml/badge.svg)](https://github.com/ArtTorres/FileMatch/actions/workflows/build.yml)
 
 Find duplicate files in directories. 
 
